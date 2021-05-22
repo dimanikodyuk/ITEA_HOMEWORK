@@ -93,7 +93,7 @@ class Matrix():
 
 
     # Деление
-    def __divmod__(self, num):
+    def __truediv__(self, num):
         print("\nРезультат деления матрицы на число:\n")
         try:
             res = []
@@ -123,8 +123,8 @@ p2 = Matrix([[8,3,9],[1,6,2],[4,4,3]])
 # add_matrix = Matrix.__add__(p1,p2)
 # add_matrix.print_matrix()
 # # Умножение
-mull_matrix = Matrix.__mul__(p1,2)
-mull_matrix.print_matrix()
+# mull_matrix = Matrix.__mul__(p1,2)
+# mull_matrix.print_matrix()
 # Вычитание
 # sub_matrix = Matrix.__sub__(p1,p2)
 # sub_matrix.print_matrix()
@@ -132,21 +132,6 @@ mull_matrix.print_matrix()
 # div_matrix = Matrix.__divmod__(p1, 2)
 # div_matrix.print_matrix()
 
-
-
-# # декоратор, принимает на вход именование аргументов джля тестовой функции и их значения
-# @pytest.mark.parametrize("delimoe, delitel, expected", [(1,2,0.5), (100,50,2)])
-# def test_my_divisor_func(delimoe, delitel, expected):
-#     res = divisor(delimoe, delitel)
-#     # assert проверяет что выражение после него ИСТИНА
-#     assert res == expected
-#
-#
-# # менеджер контекста
-# @pytest.mark.parametrize("exc_type, delimoe, delitel", [(ZeroDivisionError, 1, 0), (TypeError, "1", 3)])
-# def test_divisor_with_error(exc_type, delimoe, delitel):
-#     with pytest.raises(exc_type):
-#         divisor(delimoe, delitel)
 
 data_1 = [[1, 2, 3],
           [4, 5, 6],
@@ -183,9 +168,9 @@ def test_my_matr(matr1, matr2, deystive, result):
     if deystive == "add":
         exp_matr = m1+m2
     elif deystive == "mul":
-        exp_matr = m1*data_2
+        exp_matr = m1*matr2
     elif deystive == "div":
-        exp_matr = m1/data_2
+        exp_matr = m1/matr2
     elif deystive == "sub":
         exp_matr = m1-m2
 
