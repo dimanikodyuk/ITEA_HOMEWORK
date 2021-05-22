@@ -1,4 +1,8 @@
 import pytest
+from homework_3.hw_3 import file_replace
+from homework_3.hw_3 import file_replace_v2
+
+
 
 # def divisor(a, b):
 #     return a/b
@@ -175,4 +179,5 @@ def test_my_matr(matr1, matr2, deystive, result):
         exp_matr = m1-m2
 
     assert expected_data == exp_matr.matrix
+
 
