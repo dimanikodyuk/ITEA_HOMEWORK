@@ -1,3 +1,5 @@
+import pathlib
+
 import pytest
 from homework_3.hw_3 import old_file
 
@@ -178,7 +180,7 @@ def test_my_matr(matr1, matr2, deystive, result):
     assert expected_data == exp_matr.matrix
 
 
-
+# проверка наличия файла с которым работаем в задании 3
 @pytest.mark.parametrize("file_path",[(old_file)])
 def test_file_exist(file_path):
     assert open(file_path)
