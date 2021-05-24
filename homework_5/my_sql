@@ -1,0 +1,99 @@
+-- applications , таблица заявок
+CREATE TABLE applications (
+    order_id    INTEGER      PRIMARY KEY AUTOINCREMENT,
+    created_dt DATETIME DEFAULT CURRENT_TIMESTAMP, -- автоматическая подстановка даты создания заявки во время добавления записи в таблицу
+    updated_dt  DATETIME DEFAULT CURRENT_TIMESTAMP, -- автоматическая подстановка даты обновления заявки во время добавления записи в таблицу
+    order_type  VARCHAR (50),
+    description TEXT,
+    status      VARCHAR (50),
+    serial_no   INTEGER,
+    creator_id  INTEGER      REFERENCES employees (employee_id) ON DELETE CASCADE
+                                                                ON UPDATE SET NULL
+);
+
+
+-- Создан тригер для автоматического обновления поля updated_dt при обновлении данных в таблице
+CREATE TRIGGER update_time
+        BEFORE UPDATE
+            ON applications
+      FOR EACH ROW
+          WHEN NEW.updated_dt <= old.updated_dt
+BEGIN
+    UPDATE applications
+       SET updated_dt = CURRENT_TIMESTAMP
+     WHERE order_id = old.order_id;
+END;
+
+
+
+-- employees , таблица сотрудников
+CREATE TABLE employees (
+    employee_id   INTEGER       PRIMARY KEY AUTOINCREMENT,
+    fio           VARCHAR (150),
+    position      VARCHAR (150),
+    department_id INTEGER       REFERENCES departments (department_id) ON DELETE CASCADE
+                                                                       ON UPDATE SET NULL
+);
+
+
+-- departmenrs , таблица подразделений
+CREATE TABLE departments (
+    department_id   INTEGER       PRIMARY KEY AUTOINCREMENT,
+    department_name VARCHAR (255)
+);
+
+-- Выборка заявок
+SELECT *
+FROM order_service_db.applications
+;
+
+-- Выборка сотрудников
+SELECT *
+FROM order_service_db.employees
+;
+
+-- Выборка подразделений
+SELECT *
+FROM order_service_db.departments
+;
+
+-- Вставка значений в таблицу подразделений departments
+INSERT INTO order_service_db.departments(department_name) VALUES("ИТ");
+INSERT INTO order_service_db.departments(department_name) VALUES("Прод");
+INSERT INTO order_service_db.departments(department_name) VALUES("Отдел кадров");
+INSERT INTO order_service_db.departments(department_name) VALUES("СБ");
+
+-- Обновление департамента Продаж, не указано больше одного условия так как department_id уникальный.
+-- закоментировано для воизбежания повторного обновления данных
+-- update order_service_db.departments set department_name = "Продаж" where department_id = 2;
+
+-- Заполнение таблички сотрудников employees
+INSERT INTO order_service_db.employees(fio, position, department_id) VALUES("Никодюк Дмитрий Витальевич","Аналитик БД",1);
+INSERT INTO order_service_db.employees(fio, position, department_id) VALUES("Гусь Оксана Викторовна","Руководитель отдела кадров",3);
+INSERT INTO order_service_db.employees(fio, position, department_id) VALUES("Галупа Наталья Ивановна","Специалист отдела кадров",3);
+INSERT INTO order_service_db.employees(fio, position, department_id) VALUES("Голенков Виктор Генадьевич","Начальник служби безопасности",4);
+INSERT INTO order_service_db.employees(fio, position, department_id) VALUES("Николаенко Ольна Васильевна","Начальник отдела продаж",2);
+INSERT INTO order_service_db.employees(fio, position, department_id) VALUES("Бойко Елена Владимировна","Специалист отдела продаж",2);
+
+INSERT INTO order_service_db.employees(fio, position, department_id)
+SELECT "Гахнюк Олександр Николаевич", "Системный администратор", s.department_id
+FROM order_service_db.departments s
+WHERE s.department_name = "ИТ"
+;
+
+
+-- Заполнение таблички с заявками applications
+INSERT INTO order_service_db.applications(created_dt, order_type, description, status, serial_no, creator_id) VALUES(CURRENT_TIMESTAMP,"PDL","Продукт New_tax_45_pdl_10, период: 7d","Sell",3,5);
+
+-- Вывод информации по сотрудникам и их подразделениям
+SELECT
+      e.employee_id
+    , fio               as "ФИО сотрудника"
+    , position          as "Должность"
+    , d.department_name as "Подразделение"
+FROM order_service_db.employees   e
+JOIN order_service_db.departments d ON e.department_id = d.department_id
+;
+
+-- Обновление данных в таблице applications
+UPDATE order_service_db.applications set created_dt = "2021-05-18 06:32:10" where order_id = 1;
