@@ -1,8 +1,5 @@
 import pytest
-from homework_3.hw_3 import file_replace
-from homework_3.hw_3 import file_replace_v2
-
-
+from homework_3.hw_3 import old_file
 
 # def divisor(a, b):
 #     return a/b
@@ -181,3 +178,7 @@ def test_my_matr(matr1, matr2, deystive, result):
     assert expected_data == exp_matr.matrix
 
 
+
+@pytest.mark.parametrize("file_path",[(old_file)])
+def test_file_exist(file_path):
+    assert open(file_path)
