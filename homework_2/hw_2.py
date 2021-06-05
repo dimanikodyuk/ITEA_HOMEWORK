@@ -1,9 +1,6 @@
 
 # Задание №1
 
-MAX_WORK_CAR_SPEED = 40
-MAX_TOWN_CAR_SPEED = 60
-
 class Car():
     car_counter = 0
 
@@ -13,35 +10,36 @@ class Car():
         self.color = color
         self.name = name
         self.is_police = is_police
+        self.max_work_car_speed = 40
+        self.max_town_car_speed = 60
 
     def go(self):
-        return f"Машина {self.name} поехала"
+        print(f"Машина {self.name} поехала")
 
     def stop(self):
-        return f"Машина {self.name} остановилась"
+        print(f"Машина {self.name} остановилась")
 
     def show_speed(self):
         return self.speed
 
     def turn(self, direction):
         if direction == "left":
-            res = f"Поворот машины {self.name} налево"
+            print(f"Поворот машины {self.name} налево")
         elif direction == "right":
-            res = f"Поворот машины {self.name} направо"
+            print(f"Поворот машины {self.name} направо")
         elif direction == "back":
-            res = f"Машина {self.name} развернулась"
+            print(f"Машина {self.name} развернулась")
         else:
-            res = f"Машина {self.name} укатилась в неизвестном направлении"
-        return res
+            print(f"Машина {self.name} укатилась в неизвестном направлении")
+
 
     def show_car_info(self):
-        res = f"""   \n    Описание автомобиля {self.name}:
-    -------------------------------------------------------------------------------------
-    Цвет: {self.color}.
-    Скорость: {self.show_speed()} км/ч.
-    -------------------------------------------------------------------------------------
-        """
-        return res
+        print(f"""\nОписание автомобиля {self.name}:
+-------------------------------------------------------------------------------------
+Цвет: {self.color}.
+Скорость: {self.show_speed()} км/ч.
+-------------------------------------------------------------------------------------
+""")
 
     @classmethod
     def show_car_counter(cls):
@@ -50,8 +48,8 @@ class Car():
 class TownCar(Car):
 
     def show_speed(self):
-        if self.speed > MAX_TOWN_CAR_SPEED:
-            return f"Автомобить {self.name} превысил скорость в классе TownCar на {self.speed - MAX_TOWN_CAR_SPEED} км/ч. Текущая скорость {self.speed}"
+        if self.speed > self.max_town_car_speed:
+            return f"Автомобить {self.name} превысил скорость в классе TownCar на {self.speed - self.max_town_car_speed} км/ч. Текущая скорость {self.speed}"
         else:
             return self.speed
 
@@ -61,8 +59,8 @@ class SportCar(Car):
 class WorkCar(Car):
 
     def show_speed(self):
-        if self.speed > MAX_WORK_CAR_SPEED:
-            return f"Автомобить {self.name} превысил скорость в классе WorkCar на {self.speed - MAX_WORK_CAR_SPEED} км/ч. Текущая скорость {self.speed}"
+        if self.speed > self.max_work_car_speed:
+            return f"Автомобить {self.name} превысил скорость в классе WorkCar на {self.speed - self.max_work_car_speed} км/ч. Текущая скорость {self.speed}"
         else:
             return self.speed
 
@@ -75,16 +73,16 @@ my_car3 = SportCar(250, "black", "Suzuki", False)
 my_car4 = WorkCar(41, "purple", "Honda", False)
 my_car5 = PoliceCar(210, "white", "Lamborgini", True)
 
-print(my_car3.go())
-print(my_car3.turn("left"))
-print(my_car3.turn("back"))
-print(my_car3.stop())
+my_car3.go()
+my_car3.turn("left")
+my_car3.turn("back")
+my_car3.stop()
 
-print(my_car1.show_car_info())
-print(my_car2.show_car_info())
-print(my_car3.show_car_info())
-print(my_car4.show_car_info())
-print(my_car5.show_car_info())
+my_car1.show_car_info()
+my_car2.show_car_info()
+my_car3.show_car_info()
+my_car4.show_car_info()
+my_car5.show_car_info()
 
 #
 # # Задание № 2
@@ -115,15 +113,15 @@ print(my_car5.show_car_info())
 #     def get_app_id(self):
 #         return self.__id
 #
-#     def get_apl_info(self):
-#         res = f"""
+#     def __str__(self):
+#         return f"""
 #         ID: {self.__id}
 #         Дата создания: {self.dt_create}
 #         Имя: {self.first_name}
 #         Серийный номер: {self.serial_num}
 #         Статус: {self.status}
 #         """
-#         return res
+#
 #
 # apl1 = Application('Dima', 241414, 'Active')
 # apl2 = Application('Yura', 141516, 'New')
@@ -131,16 +129,16 @@ print(my_car5.show_car_info())
 # apl4 = Application('Oleg', 272252, 'New')
 #
 # # Получение информации по заявке
-# print(apl1.get_apl_info())
-# print(apl2.get_apl_info())
-# print(apl3.get_apl_info())
-# print(apl4.get_apl_info())
+# print(apl1)
+# print(apl2)
+# print(apl3)
+# print(apl4)
 # # Пауза в 2 секунды
-# time.sleep(2)
+# time.sleep(1)
 # # Изменение статуса по 4 заявке на Активный
 # apl4.change_status("Active")
 # # Повторный вывод общей информации о заявке, смотрим на изменения
-# print(apl4.get_apl_info())
+# print(apl4)
 #
 #
 # # Получение id заявки
@@ -155,127 +153,79 @@ print(my_car5.show_car_info())
 # time.sleep(1)
 # print(f"Время жизни заявки с id: {apl4.get_app_id()}:   {apl4.get_time_act_status()}")
 
-# Задание 3
+
+
 
 # class Matrix():
 #     def __init__(self, matrix):
 #         self.matrix = matrix
 #
 #     # Вывод матрицы на экран
-#     def print_matrix(self):
-#         for i in self.matrix:
-#             print(i)
+#     def __str__(self):
+#         # return '\n'.join(' '.join(map(str, row)) for row in self.matrix)
+#         return '\n'.join([''.join(['%s\t' % i for i in row]) for row in self.matrix])
 #
 #     # Сложение
+#     def __add__(self, other):
 #
-#     def addition_matrix(self, m1):
-#         print("\nРезультат сложения матриц:\n")
 #         try:
-#             x = self.matrix
-#             y = m1.matrix
-#             if len(x) != len(y):
-#                 print(f"Данные матрицы не могут быть сложены, размеры матриц не совпадают. Матрица А: {len(x)}, матрица Б: {len(y)}")
-#             else:
-#                 m = len(x)
-#                 n = len(x[1])
-#                 # создание матрицы с 0 элеменатми определенного размера, для сложения матриц
-#                 result = [[0 for y in range(m)] for x in range(n)]
+#             res = []
 #
-#                 Matrix.print_matrix(self)
-#                 print("+")
-#                 Matrix.print_matrix(m1)
-#                 print("=")
+#             for i in range(len(self.matrix)):
+#                 i_res = []
+#                 for j in range(len(self.matrix[0])):
+#                     i_res.append(self.matrix[i][j] + other.matrix[i][j])
+#                 res.append(i_res)
+#             return  res
 #
-#                 for i in range(len(x)):
-#                     for j in range(len(x[0])):
-#                         result[i][j] = x[i][j] + y[i][j]
-#                 # вывод результирующей матрицы
-#                 for i in result:
-#                     print(i)
 #         except Exception as err:
 #             print(f'Произошла ошибка: {err}')
 #
 #     # Умножение
-#     def multiplication_matrix(self, m1):
-#         print("\nРезультат умножения матриц:\n")
+#     def __mul__(self, num):
+#
 #         try:
-#             x = self.matrix
-#             y = m1.matrix
-#             if len(x) != len(y):
-#                 print(f"Данные матрицы не могут быть сложены, размеры матриц не совпадают. Матрица А: {len(x)}, матрица Б: {len(y)}")
-#             else:
-#                 Matrix.print_matrix(self)
-#                 print("*")
-#                 Matrix.print_matrix(m1)
-#                 print("=")
+#             res = []
 #
-#                 m = len(x)
-#                 n = len(x[1])
-#                 result = [[0 for y in range(m)] for x in range(n)]
-#                 for i in range(len(x)):
-#                     for j in range(len(y[0])):
-#                         for k in range(len(y)):
-#                             result[i][j] += x[i][k]*y[k][j]
+#             for i in range(len(self.matrix)):
+#                 i_res = []
+#                 for j in range(len(self.matrix[0])):
+#                     i_res.append(self.matrix[i][j] * num)
+#                 res.append(i_res)
 #
-#                 for i in result:
-#                     print(i)
+#             return res
 #
 #         except Exception as err:
 #             print(f'Произошла ошибка: {err}')
 #
 #     # Вычитание
-#     @staticmethod
-#     def subtraction_matrix(self, m1):
-#         print("\nРезультат вычитания матриц:\n")
+#     def __sub__(self, other):
 #         try:
-#             x = self.matrix
-#             y = m1.matrix
-#             if len(x) != len(y):
-#                 print(
-#                     f"Данные матрицы не могут быть вычтены, размеры матриц не совпадают. Матрица А: {len(x)}, матрица Б: {len(y)}")
-#             else:
-#                 m = len(x)
-#                 n = len(x[1])
-#                 # создание матрицы с 0 элеменатми определенного размера, для сложения матриц
-#                 result = [[0 for y in range(m)] for x in range(n)]
+#             res = []
 #
-#                 Matrix.print_matrix(self)
-#                 print("-")
-#                 Matrix.print_matrix(m1)
-#                 print("=")
+#             for i in range(len(self.matrix)):
+#                 i_res = []
+#                 for j in range(len(self.matrix[0])):
+#                     i_res.append(self.matrix[i][j] - other.matrix[i][j])
+#                 res.append(i_res)
+#             return res
 #
-#                 for i in range(len(x)):
-#                     for j in range(len(x[0])):
-#                         result[i][j] = x[i][j] - y[i][j]
-#                 # вывод результирующей матрицы
-#                 for i in result:
-#                     print(i)
 #         except Exception as err:
 #             print(f'Произошла ошибка: {err}')
 #
 #
 #     # Деление
-#     def divide_matrix(self, num):
-#         print("\nРезультат деления матрицы на число:\n")
+#     def __truediv__(self, num):
 #         try:
-#             x = self.matrix
+#             res = []
 #
-#             Matrix.print_matrix(self)
-#             print(f"/ {num}")
-#             print("=")
+#             for i in range(len(self.matrix)):
+#                 i_res = []
+#                 for j in range(len(self.matrix[0])):
+#                     i_res.append(self.matrix[i][j]/num)
+#                 res.append(i_res)
 #
-#             m = len(x)
-#             n = len(x[1])
-#             result = [[0 for y in range(m)] for x in range(n)]
-#
-#             for i in range(len(x)):
-#                 for j in range(len(x[0])):
-#                     result[i][j] = x[i][j]/num
-#
-#
-#             # вывод результирующей матрицы
-#             for i in result:
-#                 print(i)
+#             return res
 #
 #         except Exception as err:
 #             print(f'Произошла ошибка: {err}')
@@ -283,14 +233,16 @@ print(my_car5.show_car_info())
 #
 # p1 = Matrix([[1,2,3],[4,5,6],[7,8,9]])
 # p2 = Matrix([[8,3,9],[1,6,2],[4,4,3]])
-# p1.print_matrix()
-# p2.print_matrix()
+# print(f'Матрица №1:\n{p1}')
+# print(f'Матрица №2:\n{p2}')
 #
 # # Сложение
-# Matrix.addition_matrix(p1,p2)
+# print(f'Сложение:\n{Matrix(p1+p2)}')
 # # Умножение
-# Matrix.multiplication_matrix(p1,p2)
+# print(f'Умножение:\n{Matrix(p1*2)}')
+#
 # # Вычитание
-# Matrix.subtraction_matrix(p1,p2)
+# print(f'Вычитание:\n{Matrix(p1-p2)}')
+#
 # # Деление
-# Matrix.divide_matrix(p1, 2)
+# print(f'Деление:\n{Matrix(p1/2)}')
