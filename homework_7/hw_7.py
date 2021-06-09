@@ -177,7 +177,6 @@ get_apl_by_date_and_status('2021-05-20','2021-05-24','Active')
 
 
 
-
-
+connect = sqlite3.connect("order_service_db.db")
 
 
