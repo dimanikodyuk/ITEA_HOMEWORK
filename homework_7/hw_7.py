@@ -399,7 +399,6 @@ class Employees(Departments):
         print(res_text)
 
 
-'''
 # ЗАЯВКИ
 print("ЗАЯВКИ: ")
 
@@ -421,9 +420,10 @@ Apply.delete_apply(apl1,'1')
 
 # 6) Получение информации о заявк
 print(Apply.get_info_apply(1,30))
-'''
 
-'''
+
+
+
 # Депратаменты
 print("ДЕПАРТАМЕНТЫ: ")
 
@@ -439,7 +439,8 @@ Departments.delete_dep_by_id(12)
 
 # 6) Получение списка департаментов и их id
 Departments.get_all_dep()
-'''
+
+
 
 
 # Сотрудники
