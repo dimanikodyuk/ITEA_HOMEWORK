@@ -125,3 +125,33 @@ logger.error("Сообщение уровня ERROR")
 #
 # a = MyTestClass("Nykodiuk")
 
+# --- ЗАПИСЬ JSON В ФАЙЛ
+
+import json
+
+products = {
+    'Onion': {
+        'price': 12,
+        'in_stock': 1000,
+        'description': 'Лук'
+    },
+    'Tomato': {
+        'price': 4,
+        'in_stock': 10000,
+        'description': 'Помидоры'
+    },
+    'Cucumber': {
+        'price': 10,
+        'in_stock': 500,
+        'description': 'Огурцы',
+        # 'test' : {1, 2, 3}
+    }
+}
+
+json_object = json.dumps(products)
+print(json_object)
+print(type(json_object))
+
+with open("products_data.json", "w", encoding="UTF-8") as json_f:
+    json.dump(products, json_f)
+
