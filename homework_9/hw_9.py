@@ -1,4 +1,4 @@
-# ЗАДАНИЕ №2
+# ЗАДАНИЕ №1
 import mongoengine as me
 import json
 me.connect("LESSON_9")
@@ -131,56 +131,6 @@ class Employees(me.Document):
         except Exception:
             print(f"Ошибка! Сотрудника с таким ID не найдено")
 
-    # @staticmethod
-    # def __check_emp(p_fio, p_departmnet_id):
-    #     try:
-    #         check_emp = conn.cursor()
-    #         sql_check = f'''select employee_id from employees where fio like '%{p_fio}%' and department_id = {p_departmnet_id} limit 1;'''
-    #         check_emp.execute(sql_check)
-    #         res = check_emp.fetchone()
-    #         return res
-    #     except Exception as err:
-    #         print(f"Ошибка. {err}")
-    #
-    # def create_emp(self):
-    #     try:
-    #
-    #         res = Employees.__check_emp(self.fio, self.department_id)
-    #
-    #         if res is None:
-    #
-    #             inst_emp = conn.cursor()
-    #             inst_emp.execute(Employees.__insert_data_emp,(self.fio, self.position, self.department_id,))
-    #             conn.commit()
-    #             inst_emp.close()
-    #
-    #             res_text = f"Добавлен сотрудник с параметрами fio:{self.fio}, position:{self.position}" \
-    #                        f", department_id:{self.department_id}"
-    #             print(res_text)
-    #
-    #             # добавление лога с помощью метода наследованого из класа Departments
-    #             Departments.create_log("create_emp", res_text)
-    #         else:
-    #             print(f"Ошибка создания. Сотрудник с такими параметрами уже существует с id: {res[0]}")
-    #
-    #     except Exception as err:
-    #         print(f"Ошибка. {err}")
-
-
-
-    #
-    # @staticmethod
-    # def delete_emp(p_emp_id):
-    #     del_emp = conn.cursor()
-    #     del_emp.execute(Employees.__delete_emp, (p_emp_id,))
-    #     conn.commit()
-    #     del_emp.close()
-    #
-    #     res_text = f"Удалён сотрудник с id:{p_emp_id}"
-    #     print(res_text)
-    #
-    #     # добавление лога с помощью метода из наследованого класса Departments
-    #     Departments.create_log("delete_emp", res_text)
 
 # Класс заявок
 class Apply(me.Document):
