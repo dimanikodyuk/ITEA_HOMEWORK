@@ -3,11 +3,17 @@ import mongoengine as me
 import json
 me.connect("LESSON_9")
 
+# Проверка, чтобы переданный параметр был только с кирилических символов
+def validator(s):
+    for el in s:
+        if not((1040 <= ord(el) <= 1103) or el in ["","_"," "]):
+            raise me.ValidationError("Ошибка. Название должно состоять только из кирилических символов: %s" % (s, ))
+
 
 # Класс подразделений
 class Departments(me.Document):
 
-    dep_name = me.StringField(required=True, min_length=2)
+    dep_name = me.StringField(validation=validator, required=True, min_length=2)
 
     # Создание департамента
     def create_dep(self):
@@ -208,7 +214,7 @@ class Apply(me.Document):
 
 
 # Создание департамента
-#print(Departments(dep_name="Тестовый").create_dep())
+#print(Departments(dep_name="Певческий").create_dep())
 
 # Обновление названия департамента
 #dep1 = Departments.objects.get(id='60d1f4f79796c8edae0173a7')
@@ -234,7 +240,7 @@ class Apply(me.Document):
 
 
 # Создание заявки
-#get_emp = Employees.objects.get(fio="Николаенко Ольга Владимировна")
+#get_emp = Employees.objects.get(fio="Никодюк Дмитрий Витальевич")
 #print(Apply(order_type="2w",desc="1515asfdasda",serial_no=1516161,creator_id=get_emp).create_apply())
 
 # Обновление данных по заявке
