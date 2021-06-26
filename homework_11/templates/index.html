@@ -12,9 +12,9 @@
 {{ user_data }}
 
 
- <form enctype="multipart/form-data" method="post">
-   <p><input type="file" name="f">
-   <input type="submit" value="Отправить"></p>
+ <form action=" http://127.0.0.1:5000/uploader" method="post" enctype="multipart/form-data">
+   <p><input type="file" name="file">
+   <input type="submit" value="Загрузить"></p>
   </form>
 
 </body>
