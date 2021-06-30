@@ -67,51 +67,21 @@
 #
 #     for future in as_completed(results):
 #         print(future.result())
-
-
-
 from threading import Thread
 from datetime import datetime
 import sqlite3
-import requests
 import json
 from flask import Flask, request
 
-conn = sqlite3.connect("order_service_db.db", check_same_thread=False)
+conn = sqlite3.connect("../order_service_db.db", check_same_thread=False)
 my_apply = Flask("my_first_app")
-
-class myThread (Thread):
-   def __init__(self, name, emp_id):
-       Thread.__init__(self)
-       self.name = name
-       self.emp_id = emp_id
-
-   def run(self):
-       print("Starting " + self.name)
-       return_json_emp(self.name, self.emp_id)
-       print("Exiting " + self.name)
 
 # Список сотрудников в обработку
 list_emp = []
 # Результатирующий список
 finish_list = []
 
-
-# Ручка для передачи пользователем id сотрудников на обработку
-@my_apply.route("/check_emp", methods=["POST"])
-def get_emp():
-
-    emp_id_list = request.json.get('emp_list', None)
-    list_emp = list(map(str, emp_id_list.split()))
-
-    return {
-        "status": 1,
-        "result": finish_list
-        #"result": f"Успешно начат поиск по сотрудникам с номерами: {list_emp}"
-    }
-
-
-def return_json_emp(threadName, p_emp_id):
+def thread_function(name, p_emp_id):
     get_emp = conn.cursor()
     get_sql = f"""SELECT 'employee_id', 'fio', 'position', 'department_id' UNION ALL
     SELECT employee_id, fio, position, department_id  from employees where employee_id = {p_emp_id}"""
@@ -125,25 +95,27 @@ def return_json_emp(threadName, p_emp_id):
     finish_list.append(c)
     get_emp.close()
     print(
-       "%s: %s, %s: %s" % ( threadName, p_emp_id, c, dates)
+       "%s: %s, %s: %s" % (name, p_emp_id, c, dates)
     )
 
-    return finish_list
+# Ручка для передачи пользователем id сотрудников на обработку
+@my_apply.route("/check_emp", methods=["POST"])
+def get_emp():
 
-#
-# # Создать треды
-# thread1 = myThread("Thread", 1)
-# thread2 = myThread("Thread", 2)
-# thread3 = myThread("Thread", 3)
-# # Запустить треды
-# thread1.start()
-# thread2.start()
-# thread3.start()
-#
-# thread1.join()
-# thread2.join()
-# thread3.join()
+    emp_id_list = request.json.get('emp_list', None)
+    threads = list()
+    k = 0
+    for index in emp_id_list:
+        x = Thread(target=thread_function, args=(index, emp_id_list[k]))
+        threads.append(x)
+        x.start()
+        x.join()
+        k = k+1
 
-
+    return {
+        "status": 1,
+        "result": finish_list
+        #"result": f"Успешно начат поиск по сотрудникам с номерами: {list_emp}"
+    }
 
 my_apply.run(debug=True)
