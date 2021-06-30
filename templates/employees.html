@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Сотрудники</title>
+</head>
+
+ <style type="text/css">
+   TABLE {
+    border-collapse: collapse; /* Убираем двойные границы между ячейками */
+    border: 1px solid black; /* Рамка вокруг таблицы */
+   }
+   TD, TH {
+    padding: 5px; /* Поля вокруг текста */
+    border: 1px solid black; /* Рамка вокруг ячеек */
+   }
+  </style>
+
+
+<body>
+
+{% extends 'index.html' %}
+
+{% block content %}
+<h2>Список сотрудников</h2>
+<table >
+    <tr align="center" style="background: orange;" >
+        <td >ID</td>
+        <td>ФИО</td>
+        <td>Должность</td>
+        <td>Подразделение</td>
+    </tr>
+    {% for emp in employees_list %}
+    <tr>
+        <td align="center">{{ emp[0] }}</td>
+        <td>{{ emp[1] }}</td>
+        <td>{{ emp[2] }}</td>
+        <td align="center">{{ emp[3] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}
+
+
+
+</body>
+</html>
+

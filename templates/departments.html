@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подразделения</title>
+</head>
+
+ <style type="text/css">
+   TABLE {
+    border-collapse: collapse; /* Убираем двойные границы между ячейками */
+    border: 1px solid black; /* Рамка вокруг таблицы */
+   }
+   TD, TH {
+    padding: 5px; /* Поля вокруг текста */
+    border: 1px solid black; /* Рамка вокруг ячеек */
+   }
+  </style>
+
+<body>
+
+{% extends 'index.html' %}
+
+{% block content %}
+<h2>Список подразделений</h2>
+<table >
+    <tr align="center" style="background: orange;">
+        <td>ID</td>
+        <td>Название подразделения</td>
+    </tr>
+    {% for dep in dep_list %}
+    <tr align="center">
+        <td>{{ dep[0] }}</td>
+        <td>{{ dep[1] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}
+
+
+
+</body>
+</html>
+
