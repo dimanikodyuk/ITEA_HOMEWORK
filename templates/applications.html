@@ -22,7 +22,20 @@
 {% extends 'index.html' %}
 
 {% block content %}
+
+<br><br>
+<form action="" method="post">
+	<p>
+	    <label for="cou_row">Укажите к-во записей (0 - вывод всех)</label><br>
+	    <input type="text" name="cou_row" value="0">
+	</p>
+	<p>
+	    <input type="submit">
+	</p>
+</form>
+
 <h2>Список заявок</h2>
+
 <table >
     <tr align="center" style="background: orange;" >
         <td >ID</td>

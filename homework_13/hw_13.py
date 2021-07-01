@@ -140,16 +140,27 @@ def delete_dep_by_id(dep_id):
             "result": f"Ошибка: {err}"
         }
 
-@my_apply.route("/get_all_dep", methods=["GET"])
+@my_apply.route("/get_all_dep", methods=["GET", "POST"])
 def get_all_dep():
-    get_dep = conn.cursor()
-    dep_sql = """select department_id, department_name from departments"""
-    get_dep.execute(dep_sql)
-    res = get_dep.fetchall()
-    get_dep.close()
-    return render_template("departments.html", dep_list = res)
+    if request.method == 'POST':
 
-
+        cou_row = request.form.get('cou_row')
+        if cou_row == '0':
+            get_dep = conn.cursor()
+            dep_sql = f"""select department_id, department_name from departments;"""
+            get_dep.execute(dep_sql)
+            res = get_dep.fetchall()
+            get_dep.close()
+            return render_template("departments.html", dep_list=res)
+        else:
+            get_dep = conn.cursor()
+            dep_sql = f"""select department_id, department_name from departments limit {cou_row};"""
+            get_dep.execute(dep_sql)
+            res = get_dep.fetchall()
+            get_dep.close()
+            return render_template("departments.html", dep_list=res)
+    else:
+        return render_template("departments.html", del_list="")
 
 # Запись json кода в файл по id департамента
 def get_json(p_dep_id):
@@ -284,21 +295,33 @@ def delete_emp(emp_id):
             "result": f"Ошибка: {err}"
         }
 
-@my_apply.route("/get_all_emp", methods=["GET"])
+@my_apply.route("/get_all_emp", methods=["GET", "POST"])
 def get_all_emp():
-    get_emp = conn.cursor()
-    get_sql = f"""SELECT e.employee_id, e.fio, e.position, d.department_name 
-                    FROM employees   e
-                    JOIN departments d ON e.department_id = d.department_id
-    """
-    get_emp.execute(get_sql)
-
-
-    res = get_emp.fetchall()
-
-    get_emp.close()
-    print(res)
-    return render_template("employees.html", employees_list=res)
+    if request.method == 'POST':
+        cou_row = request.form.get('cou_row')
+        if cou_row == '0':
+            get_emp = conn.cursor()
+            get_sql = f"""SELECT e.employee_id, e.fio, e.position, d.department_name 
+                                FROM employees   e
+                                JOIN departments d ON e.department_id = d.department_id
+                """
+            get_emp.execute(get_sql)
+            res = get_emp.fetchall()
+            get_emp.close()
+            return render_template("employees.html", employees_list=res)
+        else:
+            get_emp = conn.cursor()
+            get_sql = f"""SELECT e.employee_id, e.fio, e.position, d.department_name 
+                                FROM employees   e
+                                JOIN departments d ON e.department_id = d.department_id
+                                LIMIT {cou_row}
+                """
+            get_emp.execute(get_sql)
+            res = get_emp.fetchall()
+            get_emp.close()
+            return render_template("employees.html", employees_list=res)
+    else:
+        return render_template("employees.html", employees_list="")
 
 @my_apply.route("/create_json_emp/<int:emp_id>", methods=["POST"])
 def get_json_emp(emp_id):
@@ -512,17 +535,33 @@ def get_info_apply(apply_id):
             "result": f"Ошибка: {err}"
         }
 
-@my_apply.route("/get_all_app", methods=["GET"])
+@my_apply.route("/get_all_app", methods=["GET", "POST"])
 def get_all_app():
-    get_app = conn.cursor()
-    get_sql = f"""  SELECT a.order_id, a.created_dt, a.updated_dt, a.order_type, a.description, a.status, a.serial_no , e.fio
-                    FROM applications a
-                    JOIN employees    e ON a.creator_id    = e.employee_id
-       """
-    get_app.execute(get_sql)
-    res = get_app.fetchall()
-    return render_template("applications.html", app_list=res)
 
+    if request.method == 'POST':
+
+        cou_row = request.form.get('cou_row')
+        if cou_row == '0' or None:
+            get_app = conn.cursor()
+            get_sql = f"""  SELECT a.order_id, a.created_dt, a.updated_dt, a.order_type, a.description, a.status, a.serial_no , e.fio
+                                FROM applications a
+                                JOIN employees    e ON a.creator_id    = e.employee_id
+                   """
+            get_app.execute(get_sql)
+            res = get_app.fetchall()
+            return render_template("applications.html", app_list=res)
+        else:
+            get_app = conn.cursor()
+            get_sql = f"""  SELECT a.order_id, a.created_dt, a.updated_dt, a.order_type, a.description, a.status, a.serial_no , e.fio
+                                FROM applications a
+                                JOIN employees    e ON a.creator_id    = e.employee_id
+                                LIMIT {cou_row}
+                   """
+            get_app.execute(get_sql)
+            res = get_app.fetchall()
+            return render_template("applications.html", app_list=res)
+    else:
+        return render_template("applications.html", app_list="")
 
 # Запись json кода в файл по id заявки
 @my_apply.route("/create_json_apply/<int:apply_id>", methods=["POST"])
@@ -553,9 +592,6 @@ def get_json_apply(apply_id):
             "status": 0,
             "result": f"Ошибка! Заявку с таким ID не найдено"
         }
-
-
-
 
 
 my_apply.run(debug=True)
