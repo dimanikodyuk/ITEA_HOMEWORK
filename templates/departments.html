@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подразделения</title>
+</head>
+
+ <style type="text/css">
+   TABLE {
+    border-collapse: collapse; /* Убираем двойные границы между ячейками */
+    border: 1px solid black; /* Рамка вокруг таблицы */
+   }
+   TD, TH {
+    padding: 5px; /* Поля вокруг текста */
+    border: 1px solid black; /* Рамка вокруг ячеек */
+   }
+  </style>
+
+<body>
+
+{% extends 'index.html' %}
+
+{% block content %}
+
+<br><br>
+
+<div style="color:red; font-weight: bold">
+{{ dep_data }}
+</div>
+<form action="" method="post">
+	<p>
+	    <label for="cou_row">Укажите к-во записей (0 - вывод всех)</label><br>
+	    <input type="text" name="cou_row" value="0">
+	</p>
+	<p>
+	    <input type="submit">
+	</p>
+</form>
+
+<h2>Список подразделений</h2>
+<table >
+    <tr align="center" style="background: orange;">
+        <td>ID</td>
+        <td>Название подразделения</td>
+    </tr>
+    {{ dep_new }}
+    {% for dep in dep_list %}
+    <tr>
+        <td align="center">{{ dep[0] }}</td>
+        <td>{{ dep[1] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}
+
+
+
+</body>
+</html>
+
