@@ -23,6 +23,10 @@
 {% block content %}
 
 <br><br>
+
+<div style="color:red; font-weight: bold">
+{{ dep_data }}
+</div>
 <form action="" method="post">
 	<p>
 	    <label for="cou_row">Укажите к-во записей (0 - вывод всех)</label><br>
@@ -39,9 +43,10 @@
         <td>ID</td>
         <td>Название подразделения</td>
     </tr>
+    {{ dep_new }}
     {% for dep in dep_list %}
-    <tr align="center">
-        <td>{{ dep[0] }}</td>
+    <tr>
+        <td align="center">{{ dep[0] }}</td>
         <td>{{ dep[1] }}</td>
     </tr>
     {% endfor %}
