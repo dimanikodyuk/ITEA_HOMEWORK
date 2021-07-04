@@ -139,7 +139,7 @@ def handle_check_fio(message):
     bot.send_message(message.from_user.id, f"Спасибо за регистрацию, {fio}. Добро пожаловать на наш сервис.")
 
     dt = datetime.now()
-    telegram_log = Telegram_logs(created_dt = dt, nickname=fio, chat_id=message.from_user.id, customer_id=res[0], message="", type="Регистрация")
+    telegram_log = Telegram_logs(created_dt = dt, nickname=fio, chat_id=message.from_user.id, customer_id=res[0], message="", type="Регистрация пользователя")
     db.session.add(telegram_log)
     db.session.flush()
     db.session.commit()
@@ -171,6 +171,13 @@ def reg_app_problem(message):
         db.session.flush()
         db.session.commit()
 
+        dt = datetime.now()
+        telegram_log = Telegram_logs(created_dt=dt, nickname=message.from_user.username, chat_id=message.from_user.id, customer_id=res[0],
+                                     message=msg_text, type="Регистрация проблемы")
+        db.session.add(telegram_log)
+        db.session.flush()
+        db.session.commit()
+
         menu_user(message.from_user.id)
 
 # Регистрация запроса на консультацию
@@ -189,6 +196,14 @@ def reg_app_consult(message):
         apply = Applications(created_dt=dt, order_type="Консультация", description=msg_text, status="New",
                              serial_no=str(uuid.uuid4()), creator_id=res[0], executor_id=1)
         db.session.add(apply)
+        db.session.flush()
+        db.session.commit()
+
+        dt = datetime.now()
+        telegram_log = Telegram_logs(created_dt=dt, nickname=message.from_user.username, chat_id=message.from_user.id,
+                                     customer_id=res[0],
+                                     message=msg_text, type="Регистрация заявки на консультацию")
+        db.session.add(telegram_log)
         db.session.flush()
         db.session.commit()
 
@@ -236,18 +251,24 @@ def get_text_message(message):
 
     else:
         nick = message.from_user.username
-        res = check_customer_phone(nick)
+        res = check_customer_nickname(nick)
         if res is None:
-            print(f"Неизвестная команда: {message.text} от пользователя: {message.from_user.username} с id: {message.from_user.id}")
-        else:
+            res_text = f"Неизвестная команда: {message.text} от незарегестрированного пользователя: {message.from_user.username} с id: {message.from_user.id}"
             dt = datetime.now()
 
+            telegram_log = Telegram_logs(created_dt=dt, nickname=nick, chat_id=message.from_user.id, customer_id=0,
+                                         message=message.text, type="Получено сообщение")
+            db.session.add(telegram_log)
+            db.session.flush()
+            db.session.commit()
+        else:
+            bot.send_message(message.from_user.id, "Неизвестная команда")
+            dt = datetime.now()
             telegram_log = Telegram_logs(created_dt=dt, nickname=nick, chat_id=message.from_user.id, customer_id=res[0],
                                          message=message.text, type="Получено сообщение")
             db.session.add(telegram_log)
             db.session.flush()
             db.session.commit()
-
 
 
 bot.polling()
