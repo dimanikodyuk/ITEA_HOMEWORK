@@ -26,6 +26,7 @@ class Employees(db.Model):
 class Applications(db.Model):
     order_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_dt = db.Column(db.DateTime)
+    updated_dt = db.Column(db.DateTime)
     order_type = db.Column(db.String(100))
     description = db.Column(db.Text)
     status = db.Column(db.String(50))
@@ -313,7 +314,6 @@ def check_apply(p_app_id):
 def create_apply():
     if request.method == "POST":
         emp_data = json.loads(request.data)
-
         order_type = emp_data['order_type']
         description = emp_data['description']
         serial_no = emp_data['serial_no']
@@ -357,9 +357,10 @@ def change_apply():
             return render_template("applications.html", apply_info="ОШИБКА: Завку не найдено")
         else:
 
+            dt = datetime.now()
             # запрос в БД
             apply = Applications.query.get(res[0])
-
+            apply.updated_dt = dt
             apply.order_type = order_type
             apply.description = description
             apply.serial_no = serial_no
@@ -368,7 +369,7 @@ def change_apply():
 
             db.session.commit()
 
-            dt = datetime.now()
+
             log_text = f"""Обновлена заявка с id {apply_id}, новые параметры order_type:{order_type}, description {description}, serial_no {serial_no}
             , creator_id {creator_id}, status {status}"""
             log = Log(created_dt=dt, type="update_apply", comment=log_text)
