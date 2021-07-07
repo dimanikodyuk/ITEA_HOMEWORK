@@ -75,18 +75,15 @@ print(f"Искомый элемент ряда Фибоначчи - {num} , ег
 # Задание №3 Вариант 1
 def get_sum(a,b,c):
     num_list = [a,b,c]
-
     try:
-        num, index = min((num, index) for (index, num) in enumerate(num_list))
-        num_list.pop(index)
-        return sum(num_list)
+        return sum(num_list)-min(num_list)
 
     except ValueError as err:
         print(f'Это не число. Ошибка: {err}')
     except Exception as err:
         print(f'Произошла ошибка: {err}')
 
-res = get_sum(11,5,89)
+res = get_sum(12,5,82)
 print(f"Сума наибольших чисел равна: {res}")
 
 # Задание №4
