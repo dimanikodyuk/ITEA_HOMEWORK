@@ -1,42 +1,29 @@
 # Задание №3
-
 # Способ 1
 
-def file_replace(old_file_path, new_file_path):
+def file_replace(p_old_file_path, p_new_file_path, p_dict):
     try:
-        new_list = []
-        with open(old_file_path,'r') as f:
-            old_data = f.read()
-            new_list.append(old_data.replace('One','Один').replace('Two','Два').replace('Three','Три').replace('Four','Четыри'))
+        f_old = open(p_old_file_path, 'r')
+        f_new = open(p_new_file_path, 'w')
 
-        with open(new_file_path,'w', encoding='utf-8') as f1:
-            for i in new_list:
-                f1.write(i)
-
+        is_end = 1
+        while is_end:
+            line = f_old.readline()
+            if line != '':
+                word_old = line.split()[0]
+                line = line.replace(word_old, p_dict[word_old])
+                f_new.write(line)
+            else:
+                is_end = 0
+        f_old.close()
+        f_new.close()
     except FileNotFoundError as err:
         print(f"Ошибка с файлом: {err}")
 
 
-# Способ 2
+alpha_dict = {"One": "Один", "Two": "Два", "Three": "Три", "Four": "Четыри"}
+old_file = 'test_file.txt'
+new_file = 'new_file.txt'
 
-def file_replace_v2(old_file_path, new_file_path):
-    try:
-        new_list = []
-        f = open('C:/Git/ITEA_HOMEWORK/homework_3/test_file.txt','r')
-        for i in f.readlines():
-            print(i)
-            new_list.append(i.replace('One','Один').replace('Two','Два').replace('Three','Три').replace('Four','Четыри'))
-
-        f1 = open('C:/Git/ITEA_HOMEWORK/homework_3/new_file.txt','w',  encoding='utf-8')
-        for j in new_list:
-            f1.write(j)
-    except FileNotFoundError as err:
-        print(f"Ошибка с файлом: {err}")
-
-
-old_file = 'C:/Git/ITEA_HOMEWORK/homework_3/test_file.txt'
-new_file = 'C:/Git/ITEA_HOMEWORK/homework_3/new_file.txt'
-
-file_replace(old_file, new_file)
-file_replace_v2(old_file, new_file)
+file_replace(old_file, new_file, alpha_dict)
 
