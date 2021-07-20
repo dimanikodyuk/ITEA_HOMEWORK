@@ -1,7 +1,6 @@
 import pathlib
 
 import pytest
-from homework_3.hw_3 import old_file
 
 # def divisor(a, b):
 #     return a/b
@@ -144,19 +143,19 @@ data_2 = [[8, 3, 9],
           [1, 6, 2],
           [4, 4, 3]]
 
-data_add = [[9,5,12],
-          [5,11,8],
-          [11,12,12]]
+data_add = [[9, 5, 12],
+          [5, 11, 8],
+          [11, 12, 12]]
 
-data_mul = [[2,4,6],
-            [8,10,12],
-            [14,16,18]]
+data_mul = [[2, 4, 6],
+            [8, 10, 12],
+            [14, 16, 18]]
 
-data_sub = [[-7, -1, -6],[3, -1, 4],[3, 4, 6]]
+data_sub = [[-7, -1, -6], [3, -1, 4], [3, 4, 6]]
 
-data_div = [[0.5,1,1.5],
-            [2,2.5,3],
-            [3.5,4,4.5]]
+data_div = [[0.5, 1, 1.5],
+            [2, 2.5, 3],
+            [3.5, 4, 4.5]]
 
 
 
@@ -181,6 +180,6 @@ def test_my_matr(matr1, matr2, deystive, result):
 
 
 # проверка наличия файла с которым работаем в задании 3
-@pytest.mark.parametrize("file_path",[(old_file)])
+@pytest.mark.parametrize("file_path",[("../homework_3/test_file.txt")])
 def test_file_exist(file_path):
     assert open(file_path)
