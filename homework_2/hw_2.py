@@ -1,6 +1,4 @@
-
 # Задание №1
-
 class Car():
     car_counter = 0
 
@@ -10,8 +8,6 @@ class Car():
         self.color = color
         self.name = name
         self.is_police = is_police
-        self.max_work_car_speed = 40
-        self.max_town_car_speed = 60
 
     def go(self):
         print(f"Машина {self.name} поехала")
@@ -32,40 +28,46 @@ class Car():
         else:
             print(f"Машина {self.name} укатилась в неизвестном направлении")
 
-
-    def show_car_info(self):
-        print(f"""\nОписание автомобиля {self.name}:
+    def __str__(self):
+        return f"""\nОписание автомобиля {self.name}:
 -------------------------------------------------------------------------------------
 Цвет: {self.color}.
 Скорость: {self.show_speed()} км/ч.
 -------------------------------------------------------------------------------------
-""")
+"""
 
     @classmethod
     def show_car_counter(cls):
         return cls.car_counter
 
+
 class TownCar(Car):
+    max_town_car_speed = 60
 
     def show_speed(self):
-        if self.speed > self.max_town_car_speed:
+        if self.speed > TownCar.max_town_car_speed:
             return f"Автомобить {self.name} превысил скорость в классе TownCar на {self.speed - self.max_town_car_speed} км/ч. Текущая скорость {self.speed}"
         else:
             return self.speed
 
+
 class SportCar(Car):
     pass
 
+
 class WorkCar(Car):
+    max_work_car_speed = 40
 
     def show_speed(self):
-        if self.speed > self.max_work_car_speed:
-            return f"Автомобить {self.name} превысил скорость в классе WorkCar на {self.speed - self.max_work_car_speed} км/ч. Текущая скорость {self.speed}"
+        if self.speed > WorkCar.max_work_car_speed:
+            print(f"Автомобить {self.name} превысил скорость в классе WorkCar на {self.speed - self.max_work_car_speed} км/ч. Текущая скорость {self.speed}")
         else:
-            return self.speed
+            print(self.speed)
+
 
 class PoliceCar(Car):
     pass
+
 
 my_car1 = Car(120,"red","Ford",False)
 my_car2 = TownCar(80, "white", "Renault", True)
@@ -78,17 +80,18 @@ my_car3.turn("left")
 my_car3.turn("back")
 my_car3.stop()
 
-my_car1.show_car_info()
-my_car2.show_car_info()
-my_car3.show_car_info()
-my_car4.show_car_info()
-my_car5.show_car_info()
+print(my_car1)
+print(my_car2)
+print(my_car3)
+print(my_car4)
+print(my_car5)
 
-#
+
 # # Задание № 2
 # import uuid
 # import time
 # from datetime import datetime
+#
 #
 # class Application():
 #
@@ -153,9 +156,8 @@ my_car5.show_car_info()
 # time.sleep(1)
 # print(f"Время жизни заявки с id: {apl4.get_app_id()}:   {apl4.get_time_act_status()}")
 
-
-
-
+#
+# # Задание № 3
 # class Matrix():
 #     def __init__(self, matrix):
 #         self.matrix = matrix
@@ -213,7 +215,6 @@ my_car5.show_car_info()
 #         except Exception as err:
 #             print(f'Произошла ошибка: {err}')
 #
-#
 #     # Деление
 #     def __truediv__(self, num):
 #         try:
@@ -231,8 +232,8 @@ my_car5.show_car_info()
 #             print(f'Произошла ошибка: {err}')
 #
 #
-# p1 = Matrix([[1,2,3],[4,5,6],[7,8,9]])
-# p2 = Matrix([[8,3,9],[1,6,2],[4,4,3]])
+# p1 = Matrix([[1, 2, 3],[4, 5, 6],[7, 8, 9]])
+# p2 = Matrix([[8, 3, 9],[1, 6, 2],[4, 4, 3]])
 # print(f'Матрица №1:\n{p1}')
 # print(f'Матрица №2:\n{p2}')
 #
